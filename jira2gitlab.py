@@ -144,6 +144,7 @@ def jira_text_2_gitlab_markdown(jira_project, text, adict):
     t = re.sub(r'\[([^|\]]*)\]', r'\1', t) # Links without alt
     t = re.sub(r'\[(?:(.+)\|)([a-z]+://.+)\]', r'[\1](\2)', t) # Links with alt
     t = re.sub(r'(\b%s-\d+\b)' % jira_project, r'[\1](%s/browse/\1)' % JIRA_URL, t) # Links to other issues
+    t = re.sub(r'\{noformat\}\s*', r'\n```\n', t) # Pre-Format / noformat
     # Lists
     t = re.sub(r'\n *\# ', r'\n 1. ', t) # Ordered list
     t = re.sub(r'\n *[\*\-\#]\# ', r'\n   1. ', t) # Ordered sub-list
