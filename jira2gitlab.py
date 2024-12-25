@@ -238,7 +238,7 @@ def move_attachments(attachments, gitlab_project_id):
         key = rf"!{re.escape(attachment['filename'])}[^!]*!"
         # Use full path to avoid problems for epics/issues
         full_file_path = f"{GITLAB_URL}{file_info['full_path']}"
-        value = rf"![{attachment['filename']}]({full_file_path})"
+        value = rf"[{attachment['filename']}]({full_file_path})"
 
         replacements[key] = value
     return replacements
