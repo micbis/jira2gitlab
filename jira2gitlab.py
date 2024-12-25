@@ -580,7 +580,8 @@ def migrate_project(jira_project, gitlab_project):
         if MIGRATE_ATTACHMENTS:
             for attachment in replacements.values():
                 if not attachment in gl_description:
-                    gl_description += f"Attachment imported from Jira issue [{issue['key']}]({JIRA_URL}/browse/{issue['key']}): {attachment}\n\n"
+                    #gl_description += f"Attachment imported from Jira issue [{issue['key']}]({JIRA_URL}/browse/{issue['key']}): {attachment}\n\n"
+                    gl_description += f"Attachment: {attachment}\n\n"
 
         try:
             gl_title = ""
