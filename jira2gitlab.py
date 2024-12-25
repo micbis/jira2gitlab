@@ -640,13 +640,19 @@ def migrate_project(jira_project, gitlab_project):
                 if gl_author == GITLAB_ADMIN and author != 'jira':
                     notice = f"[ Original comment made by Jira user {author} ]\n\n"
 
+                # Remove ~<username> with @<username>
+                body = comment['body']
+
+                for userOld, userNew in USER_MAP.items():
+                    body = body.replace('~' + userOld, '@' + userNew)
+
                 note_add = requests.post(
                     f"{GITLAB_API}/projects/{gitlab_project_id}/issues/{gl_issue['iid']}/notes",
                     headers = {'PRIVATE-TOKEN': GITLAB_TOKEN,'Sudo': gl_author},
                     verify = VERIFY_SSL_CERTIFICATE,
                     json = {
                         'created_at': comment['created'],
-                        'body': notice + jira_text_2_gitlab_markdown(jira_project, comment['body'], replacements)
+                        'body': notice + jira_text_2_gitlab_markdown(jira_project, body, replacements)
                     }
                 )
                 note_add.raise_for_status()
