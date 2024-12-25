@@ -585,9 +585,11 @@ def migrate_project(jira_project, gitlab_project):
 
         try:
             gl_title = ""
+            gl_title = f"{issue['fields']['summary']}"
+
             if ADD_JIRA_KEY_TO_TITLE:
-                gl_title = f"[{issue['key']}] "
-            gl_title += f"{issue['fields']['summary']}"
+                gl_title += f" [{issue['key']}]"
+
             original_title = ""
 
             if len(gl_title) > 255:
