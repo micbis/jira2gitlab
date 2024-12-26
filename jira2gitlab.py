@@ -533,11 +533,11 @@ def migrate_project(jira_project, gitlab_project):
             gl_labels.append(ISSUE_RESOLUTION_MAP[issue['fields']['resolution']['name']])
 
         # storypoints / weight
-        if JIRA_STORY_POINTS_FIELD in issue['fields'] and issue['fields'][JIRA_STORY_POINTS_FIELD]:
+        if JIRA_STORY_POINTS_FIELD and JIRA_STORY_POINTS_FIELD in issue['fields'] and issue['fields'][JIRA_STORY_POINTS_FIELD]:
             weight = int(issue['fields'][JIRA_STORY_POINTS_FIELD])
 
         # Epic name to label
-        if JIRA_EPIC_FIELD in issue['fields'] and issue['fields'][JIRA_EPIC_FIELD]:
+        if JIRA_EPIC_FIELD and JIRA_EPIC_FIELD in issue['fields'] and issue['fields'][JIRA_EPIC_FIELD]:
             epic_info = requests.get(
                 f"{JIRA_API}/issue/{issue['fields'][JIRA_EPIC_FIELD]['id']}/?fields=summary",
                 auth = HTTPBasicAuth(*JIRA_ACCOUNT),

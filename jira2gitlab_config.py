@@ -13,13 +13,10 @@ BITBUCKET_URL = 'https://bitbucket.example.com'
 JIRA_PAGINATION_SIZE = 100
 
 # the Jira Epic custom field
-JIRA_EPIC_FIELD = 'customfield_10103'
-
-# the Jira Sprints custom field
-JIRA_SPRINT_FIELD = 'customfield_10340'
+JIRA_EPIC_FIELD = ''
 
 # the Jira story points custom field
-JIRA_STORY_POINTS_FIELD = 'customfield_10002'
+JIRA_STORY_POINTS_FIELD = ''
 
 # Custom JIRA fields
 JIRA_CUSTOM_FIELDS = {
