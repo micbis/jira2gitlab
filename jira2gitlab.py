@@ -497,7 +497,7 @@ def migrate_project(jira_project, gitlab_project):
             gl_assignee = [resolve_login(issue['fields']['assignee']['name'])['id']]
 
         # Mark all issues as imported
-        gl_labels = ["jira-import"]
+        gl_labels = ["Source::Jira"]
 
         # Migrate existing labels
         if 'labels' in issue['fields']:
