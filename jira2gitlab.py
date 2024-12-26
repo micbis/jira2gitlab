@@ -518,11 +518,11 @@ def migrate_project(jira_project, gitlab_project):
                 gl_labels.append(PREFIX_PRIORITY + issue['fields']['priority']['name'].lower())
 
         # Issue components to labels
-        for component in issue['fields']['components']:
-            if component['name'] in ISSUE_COMPONENT_MAP:
-                gl_labels.append(ISSUE_COMPONENT_MAP[component['name']])
-            else:
-                gl_labels.append(PREFIX_COMPONENT + component['name'].lower())
+        #for component in issue['fields']['components']:
+        #    if component['name'] in ISSUE_COMPONENT_MAP:
+        #        gl_labels.append(ISSUE_COMPONENT_MAP[component['name']])
+        #    else:
+        #        gl_labels.append(PREFIX_COMPONENT + component['name'].lower())
 
         # issue status to label
         if issue['fields']['status'] and issue['fields']['status']['name'] in ISSUE_STATUS_MAP:
