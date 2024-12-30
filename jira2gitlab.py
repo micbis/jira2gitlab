@@ -424,16 +424,16 @@ def migrate_project(jira_project, gitlab_project):
         gitlab_project_id = create_gl_project(gitlab_project)
 
     # Load the Gitlab project's milestone list (empty for a new import)
-    try:
-        gl_milestones = requests.get(
-            f'{GITLAB_API}/projects/{gitlab_project_id}/milestones',
-            headers = {'PRIVATE-TOKEN': GITLAB_TOKEN},
-            verify = VERIFY_SSL_CERTIFICATE
-        )
-        gl_milestones.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"Unable to list Gitlab milestones for project {gitlab_project}!\n{e}")
-    gl_milestones = gl_milestones.json()
+    #try:
+    #    gl_milestones = requests.get(
+    #        f'{GITLAB_API}/projects/{gitlab_project_id}/milestones',
+    #        headers = {'PRIVATE-TOKEN': GITLAB_TOKEN},
+    #        verify = VERIFY_SSL_CERTIFICATE
+    #    )
+    #    gl_milestones.raise_for_status()
+    #except requests.exceptions.RequestException as e:
+    #    raise Exception(f"Unable to list Gitlab milestones for project {gitlab_project}!\n{e}")
+    #gl_milestones = gl_milestones.json()
 
     # Load Jira project issues, with pagination (Jira has a limit on returned items)
     # This assumes they will all fit in memory
@@ -548,8 +548,8 @@ def migrate_project(jira_project, gitlab_project):
 
         # Last fix versions to milestone
         gl_milestone_id = None
-        for fixVersion in issue['fields']['fixVersions']:
-            gl_milestone_id = get_milestone_id(gl_milestones, gitlab_project_id, fixVersion['name'])
+        #for fixVersion in issue['fields']['fixVersions']:
+        #    gl_milestone_id = get_milestone_id(gl_milestones, gitlab_project_id, fixVersion['name'])
 
         # Collect issue links, to be processed after all Gitlab issues are created
         # Only "outward" links were collected.
@@ -602,7 +602,7 @@ def migrate_project(jira_project, gitlab_project):
                 'assignee_ids': gl_assignee,
                 'title': gl_title,
                 'description': original_title + gl_description,
-                'milestone_id': gl_milestone_id,
+                # Disable milestone import: 'milestone_id': gl_milestone_id,
                 'labels': ", ".join(gl_labels),
             }
             if weight is not None:
