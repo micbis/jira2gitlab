@@ -2,12 +2,12 @@
 # Jira options
 ################################################################
 
-JIRA_URL = 'https://jira.example.com'
+JIRA_URL = 'https://portal.byteworks.ch/jira'
 JIRA_API = f'{JIRA_URL}/rest/api/2'
 
 # Bitbucket URL, if available, is only used in pattern-matching
 # to translate issue references to commits.
-BITBUCKET_URL = 'https://bitbucket.example.com'
+#BITBUCKET_URL = 'https://portal.byteworks.ch/bitbucket'
 
 # How many items to request at a time from Jira (usually not more than 1000)
 JIRA_PAGINATION_SIZE = 100
@@ -20,15 +20,15 @@ JIRA_STORY_POINTS_FIELD = ''
 
 # Custom JIRA fields
 JIRA_CUSTOM_FIELDS = {
-    'customfield_14200': 'Metadata 1',
-    'customfield_14201': 'Metadata 2',
+    #'customfield_14200': 'Metadata 1',
+    #'customfield_14201': 'Metadata 2',
 }
 
 ################################################################
 # Gitlab options
 ################################################################
 
-GITLAB_URL = 'https://gitlab.example.com'
+GITLAB_URL = 'https://git.byteworks.ch'
 GITLAB_API = f'{GITLAB_URL}/api/v4'
 
 # Support Gitlab Premium features (e.g. epics and "blocks" issue links)
@@ -42,10 +42,10 @@ GITLAB_PREMIUM = True
 IMPORT_STATUS_FILENAME = 'import_status.pickle'
 
 # Set this to false if JIRA / Gitlab is using self-signed certificate.
-VERIFY_SSL_CERTIFICATE = False
+VERIFY_SSL_CERTIFICATE = True
 
 # PREFIX_LABEL is used with all existing Jira labels
-PREFIX_LABEL = ''
+PREFIX_LABEL = 'Jira::'
 
 # PREFIX_COMPONENT is used with existing Jira components when no match is found in ISSUE_COMPONENT_MAP
 # NOTE: better NOT to use a prefix for components, otherwise only 1 component will be imported in Gitlab
@@ -87,16 +87,17 @@ ADD_JIRA_KEY_TO_TITLE = True
 # Limitations:
 # - Bitbucket repositories need to be imported in Gitlab with the same project name (the group name can change)
 # - This feature only works if the issue project and the commit project are in the same Gitlab group
-REFERECE_BITBUCKET_COMMITS = True
+REFERECE_BITBUCKET_COMMITS = False
 
 # Try force converting broken jira tables (tables that have no headers)
-FORCE_REPAIR_JIRA_TABLES = False
+FORCE_REPAIR_JIRA_TABLES = True
 
 # Set this to True if you want to keep original attachments filenames.
 # Diacritics are removed, but no full normalisation to ASCII is performed.
 # Therefore this may cause 500 errors on some unicode characters.
 # When set to False, filenames are replaced with UUIDs.
-KEEP_ORIGINAL_ATTACHMENT_FILENAMES = False
+KEEP_ORIGINAL_ATTACHMENT_FILENAMES = True
+
 
 ################################################################
 # Import mappings
@@ -105,9 +106,37 @@ KEEP_ORIGINAL_ATTACHMENT_FILENAMES = False
 # Jira - Gitlab group/project mapping
 # Groups are not created. They must already exist in Gitlab.
 PROJECTS = {
-    'PROJECT1': 'group1/project1',
-    'PROJECT2': 'group1/project2',
-    'PROJECT3': 'group2/project3',
+    #'BW - Diverses': '',
+    #'BW - Infrastruktur - Extern (Hosting)': '',
+    #'BW - Infrastruktur - Intern': '',
+    #'BW - Internes': '',
+
+    'License Portal': 'products/data-manager/licence-portal',
+
+    'Mission Guard - App': 'products/mission-guard/app/app',
+    'Mission Guard - Console': 'products/mission-guard/console',
+    'Mission Guard - Data Manager': 'products/mission-guard/data-manager',
+    'Mission Guard - Data Provider Bundle': 'products/mission-guard/components/symfony/data-bundle',
+    'Mission Guard - Device Client': 'products/mission-guard/device-client',
+    'Mission Guard - Endpoint Manager': 'products/mission-guard/endpoint-manager',
+    'Mission Guard - Mission Provider Bundle': 'products/mission-guard/components/symfony/mission-bundle',
+    'Mission Guard - Portal': 'products/mission-guard/portal',
+    #'Mission Guard - Diverses': '',
+
+    #'GVZ - Diverses': '',
+    'GVZ - GRISU': 'clients/gvz/grisu',
+    'GVZ - IDP': 'clients/gvz/idp',
+    'GVZ - Kursfeedback': 'clients/gvz/kursfeedback/backend',
+    'GVZ - Pager Admin': 'clients/gvz/pager-admin',
+    'GVZ - Pager Log': 'products/pager-log/backend',
+    #'GVZ - SPA-IF Ersatz': '',
+    'GVZ - Statusportal': 'clients/gvz/status-portal',
+
+    'Gübelin': 'clients/gubelin/guebelin-backend',
+    'tibits': 'clients/tibits/backend',
+
+    'Maxon - Bike Drive': 'clients/maxon/bike-drive/backend',
+    'Maxon - Drive Tech': 'clients/maxon/drive-tech/backend',
 }
 
 # Bitbucket - Gitlab mapping
@@ -115,52 +144,72 @@ PROJECTS = {
 # Used to map references from issues to commits in Bitbucket repos that are migrated to Gitlab
 # Make sure you use the correct casing for Bitbucket: project key is all upper-case, repository is all lower-case
 PROJECTS_BITBUCKET = {
-  'PROJ1/repository1': 'group1/project1',
-  'PROJ2/repository2': 'group1/project2',
+    #'PROJ1/repository1': 'group1/project1',
 }
 
 # Jira - Gitlab username mapping
 USER_MAP = {
-  'Bob' : 'bob',
-  'Bane' : 'jane',
+  'admin': 'root',
+  'bismic' : 'michael.bischof',
+  'wiechr' : 'christoph.wieseke',
+
+  'binron': 'ronny.binder',
+  'christian.nuessli@zuerich.ch': 'christian.nuessli',
+
+  'michael.messmer@gvz.ch': 'michael.messmer',
+  'vasco.avanzini@gvz.ch': 'vasco.avanzini',
+  'william.ihde@gvz.ch': 'william.ihde',
+
+  'michel.riedmann@maxongroup.com': 'michel.riedmann',
+  'mario.warthmann@maxongroup.com': 'mario.warthmann',
+  'adrian.hofstetter@maxongroup.com': 'adrian.hofstetter',
+
+  'alexander.dardel@gubelin.com': 'alexander.dardel',
 }
 
 # Map Jira issue types to Gitlab labels
 # Unknown issue types are mapped as generic labels
 ISSUE_TYPE_MAP = {
-    'Bug': 'T::bug',
-    'Improvement': 'T::improvement',
-    'New Feature': 'T::new feature',
-    'Spike': 'T::spike',
-    'Epic': 'T::epic',
-    'Story': 'T::story',
-    'Task': 'T::task',
-    'Sub-task': 'T::task',
+    'Aufgabe': 'Type::Task',
+    'Neue Funktion': 'Type::Feature',
+    'Verbesserung': 'Type::Improvement',
+    'Bug': 'Type::Bug',
+    'Improvement': 'Type::Improvement',
+    'New Feature': 'Type::Feature',
+    'Epic': 'Type::Epic',
+    'Task': 'Type::Task',
+    'Sub-Task': 'Type::Task',
+    #'Spike': 'Type::Spike',
+    'Story': 'Type::Story',
 }
 
 # Map Jira components to labels
 # NOTE: better NOT to use a prefix for components, otherwise only 1 component will be imported in Gitlab
 ISSUE_COMPONENT_MAP = {
-    'Component1': 'component1',
-    'Component2': 'component2'
+    #'Component1': 'component1',
+    #'Component2': 'component2'
 }
 
 # Map Jira priorities to labels
 ISSUE_PRIORITY_MAP = {
-    'Trivial': 'P::trivial',
-    'Minor': 'P::minor',
-    'Major': 'P::normal',
-    'Critical': 'P::critical',
-    'Blocker': 'P::blocker',
+    'Critical': 'Priority::Critical',
+    'Highest': 'Priority::High',
+    'High': 'Priority::High',
+    'Medium': 'Priority::Medium',
+    'Lowest': 'Priority::Low',
+    'Low': 'Priority::Low',
+
+    'Hoch': 'Priority::High',
+    'Niedrig': 'Priority::Low',
 }
 
 # Map Jira resolutions to labels
 ISSUE_RESOLUTION_MAP = {
-    'Cannot Reproduce': 'S::can\'t reproduce',
-    'Duplicate': 'S::duplicate',
-    'Incomplete': 'S::incomplete',
-    'Won\'t Do': 'S::won\'t do',
-    'Won\'t Fix': 'S::won\'t fix',
+    'Cannot Reproduce': 'State::Can\'t reproduce',
+    'Duplicate': 'State::Duplicate',
+    'Incomplete': 'State::Incomplete',
+    'Won\'t Do': 'State::Won\'t do',
+    'Won\'t Fix': 'State::Won\'t fix',
 #    'Unresolved': 'S::unresolved',
 #    'Done': 'S::done',
 #    'Fixed': 'S::fixed',
@@ -168,10 +217,12 @@ ISSUE_RESOLUTION_MAP = {
 
 # Map Jira statuses to labels
 ISSUE_STATUS_MAP = {
-    'Approved': 'S::approved',
-    'Awaiting documentation': 'S::needs doc',
-    'In Progress': 'S::in progress',
-    'In Review': 'S::in review',
+    'Approved': 'State::Approved',
+    'Awaiting documentation': 'State::Waiting',
+    'In Progress': 'State::In progress',
+    'In Review': 'State::In review',
+    'In Arbeit': 'State::In progress',
+
     # 'Awaiting payment': '',
     # 'Backlog': '',
     # 'Cancelled': '',
@@ -187,14 +238,27 @@ ISSUE_STATUS_MAP = {
 
 # These Jira statuses will cause the corresponding Gitlab issue to be closed
 ISSUE_STATUS_CLOSED = {
-  'Awaiting documentation',
+    #'Awaiting documentation',
 }
 
 # Set colors for single labels or group of labels
 LABEL_COLORS = {
-#    'S::in review': '#0000ff'
+    'Source::Jira': '#e6e6fa',
 }
-# for key, value in ISSUE_COMPONENT_MAP.items():
-#     LABEL_COLORS[value] = '#e6e6fa'
-# for key, value in ISSUE_PRIORITY_MAP.items():
-#     LABEL_COLORS[value] = '#8fbc8f'
+
+for key, value in ISSUE_TYPE_MAP.items():
+    LABEL_COLORS[value] = '#6699cc'
+
+for key, value in ISSUE_PRIORITY_MAP.items():
+    LABEL_COLORS[value] = '#ed9121' #'#8fbc8f'
+
+for key, value in ISSUE_STATUS_MAP.items():
+    LABEL_COLORS[value] = '#009966'
+
+for key, value in ISSUE_RESOLUTION_MAP.items():
+    LABEL_COLORS[value] = '#009966'
+
+# TODO: Disable once finished testing
+#for key, value in PROJECTS.items():
+#    PROJECTS[key] = 'test-1/test-1.2/test-1.2.1'
+
